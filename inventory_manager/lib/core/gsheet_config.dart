@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:gsheets/gsheets.dart';
 import 'package:inventory_manager/gsheet_setup.dart' show credentials, sheetId;
 
-final gSheetInit = GSheets(credentials);
+final gSheetInit = GSheets(jsonEncode(credentials));
 
 Spreadsheet? gSheetController;
 
