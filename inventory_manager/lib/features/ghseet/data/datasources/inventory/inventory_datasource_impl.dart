@@ -1,0 +1,27 @@
+import 'package:inventory_manager/core/gsheet_config.dart';
+import 'package:inventory_manager/features/ghseet/data/datasources/inventory_datasource.dart';
+
+class InventoryDatasourceImpl extends InventoryDatasource {
+  @override
+  Future<bool?> addtoInventory(Map<String, int> materials) async {
+    final response = await inventoryGsheet?.values.map.appendRows([materials]);
+    return response;
+  }
+
+  @override
+  Future<List<Map<String, String>>?> fetchFromInventory() async {
+    final response = await inventoryGsheet?.values.map.allRows();
+    return response;
+  }
+
+  @override
+  Future<bool?> updateInventory(List<int> newQuantity) async {
+    return await inventoryGsheet?.values.insertRow(2, newQuantity);
+  }
+
+  @override
+  Future<bool?> removeFromInventory(String material) async {
+    final index = await inventoryGsheet?.values.columnIndexOf("wood");
+    return inventoryGsheet?.deleteColumn(index!);
+  }
+}
