@@ -26,22 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               actions: [
                 TextButton(onPressed: () {}, child: Text("Sync")),
-                TextButton(onPressed: () {}, child: Text("Save")),
               ],
             ),
             bottomNavigationBar: HomeBottomNavBar(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                if (state == 0) {
-                  print("Products");
-                } else if (state == 1) {
-                  print("Composition");
-                } else if (state == 2) {
-                  print("Inventory");
-                }
-              },
-              child: Icon(Icons.add),
-            ),
+
             body: IndexedStack(
               index: state,
               children: [

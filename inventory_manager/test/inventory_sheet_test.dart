@@ -8,8 +8,17 @@ void main() {
   });
   test("add items to inventory sheet", () async {
     final inventory = InventoryDatasourceImpl();
+    final testData = {
+      "wood": 500,
+      "steel": 0,
+      "foam": 7,
+      "screws": 1000,
+      "fabric": 6,
+      "plastic": 200,
+      "meds": 30,
+    };
 
-    final result = await inventory.addtoInventory({});
+    final result = await inventory.addtoInventory(testData);
     print(result);
   });
   test("fetch items from inventory sheet", () async {
@@ -27,7 +36,7 @@ void main() {
   test("delete item from inventory sheet", () async {
     final inventory = InventoryDatasourceImpl();
 
-    final result = await inventory.removeFromInventory("");
+    final result = await inventory.removeFromInventory("fabric");
     print(result);
   });
 }

@@ -4,7 +4,8 @@ import 'package:inventory_manager/features/ghseet/data/datasources/inventory_dat
 class InventoryDatasourceImpl extends InventoryDatasource {
   @override
   Future<bool?> addtoInventory(Map<String, int> materials) async {
-    final response = await inventoryGsheet?.values.map.appendRows([materials]);
+    final response = await inventoryGsheet?.values.insertRow(1, materials.keys.toList());
+    final response2 = await inventoryGsheet?.values.insertRow(2, materials.values.toList());
     return response;
   }
 
@@ -21,7 +22,7 @@ class InventoryDatasourceImpl extends InventoryDatasource {
 
   @override
   Future<bool?> removeFromInventory(String material) async {
-    final index = await inventoryGsheet?.values.columnIndexOf("wood");
+    final index = await inventoryGsheet?.values.columnIndexOf(material);
     return inventoryGsheet?.deleteColumn(index!);
   }
 }
