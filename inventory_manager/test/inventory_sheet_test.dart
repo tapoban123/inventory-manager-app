@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:inventory_manager/core/gsheet_config.dart';
-import 'package:inventory_manager/features/ghseet/data/datasources/inventory/inventory_datasource_impl.dart';
+import 'package:inventory_manager/features/home/data/datasources/inventory/inventory_datasource_impl.dart';
 
 void main() {
   setUp(() async {

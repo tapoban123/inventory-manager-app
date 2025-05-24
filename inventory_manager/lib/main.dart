@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/gsheet_config.dart';
-import 'package:inventory_manager/features/ghseet/presentation/bloc/bottom_navigation_cubit.dart';
-import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_bloc.dart';
-import 'package:inventory_manager/features/ghseet/presentation/screens/home_screen.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
+import 'package:inventory_manager/features/home/presentation/screens/home_screen.dart';
 import 'package:inventory_manager/injection_container.dart';
 
 void main() async {
