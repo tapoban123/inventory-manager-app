@@ -6,7 +6,7 @@ class UpdateComposition {
   UpdateComposition({required CompositionRepository compositionRepository})
     : _compositionRepository = compositionRepository;
 
-  Future<bool?> call(List<List<String>> updatedComposition) async {
+  Future<bool?> call(List<String> updatedComposition) async {
     return _compositionRepository.updateComposition(updatedComposition);
   }
 }

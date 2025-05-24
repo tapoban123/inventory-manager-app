@@ -4,5 +4,5 @@ abstract class CompositionSheetDatasource {
   Future<bool?> removeComposition(String compositionId);
   Future<Map<String, String>?> fetchSpecificComposition(String compositionId);
   Future<bool?> updateAvailableMaterials(List<String> newMaterialColumn);
-  Future<bool?> updateComposition(List<List<String>> updatedComposition);
+  Future<bool?> updateComposition(List<String> updatedComposition);
 }

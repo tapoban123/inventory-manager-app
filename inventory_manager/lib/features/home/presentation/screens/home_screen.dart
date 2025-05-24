@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/home/presentation/components/home_bottom_nav_bar.dart';
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     if (state == 0) {
                     } else if (state == 1) {
+                      context.read<CompositionBloc>().add(FetchAllCompositionsEvent());
                     } else if (state == 2) {
                       context.read<InventoryBloc>().add(
                         FetchFromInventoryEvent(),

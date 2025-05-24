@@ -47,9 +47,11 @@ void main() {
     final compositionDatasource = CompositionSheetDatasourceImpl();
 
     final response = await compositionDatasource.updateComposition([
-      ["125", "handwash", "78", "90", "56"],
-      ["165", "camera", "3", "2", "2000"],
-      ["123", "book", "7", "800", "500"],
+      "125",
+      "soap",
+      "78",
+      "90",
+      "56",
     ]);
     print(response);
   });

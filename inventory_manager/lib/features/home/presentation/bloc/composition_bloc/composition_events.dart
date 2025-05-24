@@ -40,7 +40,7 @@ class UpdateAvailableMaterialsEvent extends CompositionEvents {
 }
 
 class UpdateCompositionEvent extends CompositionEvents {
-  final List<List<String>> updatedComposition;
+  final List<String> updatedComposition;
   UpdateCompositionEvent({required this.updatedComposition});
 
   @override

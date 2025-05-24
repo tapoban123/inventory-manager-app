@@ -68,7 +68,7 @@ class CompositionRespositoryImpl extends CompositionRepository {
   }
 
   @override
-  Future<bool?> updateComposition(List<List<String>> updatedComposition) async {
+  Future<bool?> updateComposition(List<String> updatedComposition) async {
     try {
       final response = await _compositionSheetDatasource.updateComposition(
         updatedComposition,

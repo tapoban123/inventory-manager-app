@@ -39,9 +39,12 @@ class CompositionSheetDatasourceImpl extends CompositionSheetDatasource {
   }
 
   @override
-  Future<bool?> updateComposition(List<List<String>> updatedComposition) async {
-    final response = await compositionGsheet?.values.insertRows(
-      2,
+  Future<bool?> updateComposition(List<String> updatedComposition) async {
+    final index = await compositionGsheet?.values.rowIndexOf(
+      updatedComposition[0],
+    );
+    final response = await compositionGsheet?.values.insertRow(
+      index!,
       updatedComposition,
     );
 
