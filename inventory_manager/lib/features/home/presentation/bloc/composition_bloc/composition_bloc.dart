@@ -131,8 +131,17 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     final deepCopyData =
         state.compositionData?.map((e) => Map<String, int>.from(e)).toList();
 
-    // for (final composition in deepCopyData!) {
-    //   composition[event.updatedComposition[0]]
-    // }
+    var values = [];
+    for (int i = 0; i < event.updatedComposition.length; i++) {
+      values = event.updatedComposition[i];
+
+      for (int j = 0; j < values.length; j++) {
+        deepCopyData?[i][deepCopyData[i].keys.toList()[j]] = values[j];
+      }
+    }
+
+    print(deepCopyData);
+    
+    emit(state.copyWith(loadingStatus: CompositionLoadingStatus.success));
   }
 }

@@ -1,12 +1,23 @@
 import 'package:get_it/get_it.dart';
+import 'package:inventory_manager/features/home/data/datasources/composition/composition_sheet_datasource_impl.dart';
+import 'package:inventory_manager/features/home/data/datasources/composition_sheet_datasource.dart';
 import 'package:inventory_manager/features/home/data/datasources/inventory/inventory_datasource_impl.dart';
 import 'package:inventory_manager/features/home/data/datasources/inventory_datasource.dart';
+import 'package:inventory_manager/features/home/data/repository/composition_respository_impl.dart';
 import 'package:inventory_manager/features/home/data/repository/inventory_repository_impl.dart';
+import 'package:inventory_manager/features/home/domain/repository/composition_repository.dart';
 import 'package:inventory_manager/features/home/domain/repository/inventory_repository.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/create_new_composition.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_all_compositions.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_specific_composition.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_available_materials.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_composition.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/add_material_to_inventory.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/fetch_all_from_inventory.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/remove_material_from_inventory.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/update_quantity_in_inventory.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -21,8 +32,18 @@ void init() {
       fetchAllFromInventory: getIt(),
     ),
   );
+  getIt.registerFactory(
+    () => CompositionBloc(
+      createNewComposition: getIt(),
+      fetchAllCompositions: getIt(),
+      fetchSpecificComposition: getIt(),
+      removeComposition: getIt(),
+      updateAvailableMaterials: getIt(),
+      updateComposition: getIt(),
+    ),
+  );
 
-  // usecases
+  // Inventory usecases
   getIt.registerLazySingleton(
     () => AddMaterialToInventory(inventoryRepository: getIt()),
   );
@@ -36,13 +57,39 @@ void init() {
     () => FetchAllFromInventory(inventoryRepository: getIt()),
   );
 
+  // Composition usecases
+  getIt.registerLazySingleton(
+    () => CreateNewComposition(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => FetchAllCompositions(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => FetchSpecificComposition(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => RemoveComposition(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => UpdateAvailableMaterials(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => UpdateComposition(compositionRepository: getIt()),
+  );
+
   // repositories
   getIt.registerLazySingleton<InventoryRepository>(
     () => InventoryRepositoryImpl(inventoryDatasource: getIt()),
+  );
+  getIt.registerLazySingleton<CompositionRepository>(
+    () => CompositionRespositoryImpl(compositionSheetDatasource: getIt()),
   );
 
   // datasources
   getIt.registerLazySingleton<InventoryDatasource>(
     () => InventoryDatasourceImpl(),
+  );
+  getIt.registerLazySingleton<CompositionSheetDatasource>(
+    () => CompositionSheetDatasourceImpl(),
   );
 }
