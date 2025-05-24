@@ -8,6 +8,6 @@ class RemoveMaterialFromInventory {
   }) : _inventoryRepository = inventoryRepository;
 
   Future<bool?> call(String material) async {
-    return _inventoryRepository.removeMaterialFromInventory(material);
+    return await _inventoryRepository.removeMaterialFromInventory(material);
   }
 }

@@ -6,6 +6,6 @@ class FetchAllCompositions {
     : _compositionRepository = compositionRepository;
 
   Future<List<Map<String, String>>?> call() async {
-    return _compositionRepository.fetchAllComposition();
+    return await _compositionRepository.fetchAllComposition();
   }
 }

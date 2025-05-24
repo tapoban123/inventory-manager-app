@@ -7,6 +7,6 @@ class FetchSpecificComposition {
   }) : _compositionRepository = compositionRepository;
 
   Future<Map<String, String>?> call(String compositionId) async {
-    return _compositionRepository.fetchSpecificComposition(compositionId);
+    return await _compositionRepository.fetchSpecificComposition(compositionId);
   }
 }

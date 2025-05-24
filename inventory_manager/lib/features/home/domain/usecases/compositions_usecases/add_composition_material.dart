@@ -7,6 +7,6 @@ class AddCompositionMaterial {
   }) : _compositionRepository = compositionRepository;
 
   Future<bool?> call(List<String> newMaterialColumn) async {
-    return _compositionRepository.addCompositionMaterial(newMaterialColumn);
+    return await _compositionRepository.addCompositionMaterial(newMaterialColumn);
   }
 }

@@ -6,6 +6,6 @@ class RemoveComposition {
     : _compositionRepository = compositionRepository;
 
   Future<bool?> call(String compositionId) async {
-    return _compositionRepository.removeComposition(compositionId);
+    return await _compositionRepository.removeComposition(compositionId);
   }
 }

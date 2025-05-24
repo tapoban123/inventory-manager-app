@@ -7,6 +7,6 @@ class RemoveCompositionMaterial {
   }) : _compositionRepository = compositionRepository;
 
   Future<bool?> call(String material) async {
-    return _compositionRepository.removeCompositionMaterial(material);
+    return await _compositionRepository.removeCompositionMaterial(material);
   }
 }

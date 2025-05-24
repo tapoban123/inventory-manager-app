@@ -7,6 +7,6 @@ class UpdateQuantityInInventory {
     : _inventoryRepository = inventoryRepository;
 
   Future<bool?> call(List<int> newQuantity) async {
-    return _inventoryRepository.updateQuantityInventory(newQuantity);
+    return await _inventoryRepository.updateQuantityInventory(newQuantity);
   }
 }
