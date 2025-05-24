@@ -33,7 +33,7 @@ class BottomButtons extends StatelessWidget {
         Flexible(
           flex: 1,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 5),
+            padding: const EdgeInsets.only(left: 5.0, right: 10),
 
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
