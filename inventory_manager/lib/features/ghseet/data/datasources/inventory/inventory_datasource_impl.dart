@@ -4,8 +4,11 @@ import 'package:inventory_manager/features/ghseet/data/datasources/inventory_dat
 class InventoryDatasourceImpl extends InventoryDatasource {
   @override
   Future<bool?> addtoInventory(Map<String, int> materials) async {
-    final response = await inventoryGsheet?.values.insertRow(1, materials.keys.toList());
-    final response2 = await inventoryGsheet?.values.insertRow(2, materials.values.toList());
+    final response = await inventoryGsheet?.values.insertRows(1, [
+      materials.keys.toList(),
+      materials.values.toList(),
+    ]);
+
     return response;
   }
 
