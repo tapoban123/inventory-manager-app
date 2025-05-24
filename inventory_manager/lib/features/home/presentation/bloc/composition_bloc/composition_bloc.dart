@@ -3,7 +3,8 @@ import 'package:inventory_manager/features/home/domain/usecases/compositions_use
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_all_compositions.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_specific_composition.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_available_materials.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/add_composition_material.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition_material.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_composition.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_states.dart';
@@ -13,7 +14,8 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
   final FetchAllCompositions _fetchAllCompositions;
   final FetchSpecificComposition _fetchSpecificComposition;
   final RemoveComposition _removeComposition;
-  final UpdateAvailableMaterials _updateAvailableMaterials;
+  final AddCompositionMaterial _addCompositionMaterial;
+  final RemoveCompositionMaterial _removeCompositionMaterial;
   final UpdateComposition _updateComposition;
 
   CompositionBloc({
@@ -21,21 +23,24 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     required FetchAllCompositions fetchAllCompositions,
     required FetchSpecificComposition fetchSpecificComposition,
     required RemoveComposition removeComposition,
-    required UpdateAvailableMaterials updateAvailableMaterials,
+    required AddCompositionMaterial addCompositionMaterial,
+    required RemoveCompositionMaterial removeCompositionMaterial,
     required UpdateComposition updateComposition,
   }) : _createNewComposition = createNewComposition,
        _fetchAllCompositions = fetchAllCompositions,
        _fetchSpecificComposition = fetchSpecificComposition,
        _removeComposition = removeComposition,
-       _updateAvailableMaterials = updateAvailableMaterials,
+       _addCompositionMaterial = addCompositionMaterial,
        _updateComposition = updateComposition,
+       _removeCompositionMaterial = removeCompositionMaterial,
        super(CompositionStates()) {
     on<AddNewCompositionEvent>(addNewComposition);
     on<FetchAllCompositionsEvent>(fetchAllCompositionsFromSheet);
     on<FetchSpecificCompositionEvent>(fetchSpecificCompositionFromSheet);
     on<RemoveCompositionEvent>(removeCompositionFromSheet);
-    on<UpdateAvailableMaterialsEvent>(updateAvailableMaterialsOnSheet);
+    on<AddNewCompositionMaterialEvent>(addNewCompositionMaterial);
     on<UpdateCompositionEvent>(updateCompositionOnSheet);
+    on<RemoveCompositionMaterialEvent>(removeCompositionMaterialFromSheet);
   }
 
   void addNewComposition(AddNewCompositionEvent event, Emitter emit) {
@@ -98,12 +103,12 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     emit(state.copyWith(compositionData: deepCopyData));
   }
 
-  void updateAvailableMaterialsOnSheet(
-    UpdateAvailableMaterialsEvent event,
+  void addNewCompositionMaterial(
+    AddNewCompositionMaterialEvent event,
     Emitter emit,
   ) async {
     emit(state.copyWith(loadingStatus: CompositionLoadingStatus.loading));
-    _updateAvailableMaterials.call(event.newMaterialColumn);
+    _addCompositionMaterial.call(event.newMaterialColumn);
     final deepCopyData =
         state.compositionData?.map((e) => Map<String, String>.from(e)).toList();
 
@@ -111,6 +116,27 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     for (final composition in deepCopyData!) {
       composition[event.newMaterialColumn[0]] = event.newMaterialColumn[index];
       index++;
+    }
+
+    emit(
+      state.copyWith(
+        loadingStatus: CompositionLoadingStatus.success,
+        compositionData: deepCopyData,
+      ),
+    );
+  }
+
+  void removeCompositionMaterialFromSheet(
+    RemoveCompositionMaterialEvent event,
+    Emitter emit,
+  ) async {
+    emit(state.copyWith(loadingStatus: CompositionLoadingStatus.loading));
+    _removeCompositionMaterial.call(event.material);
+    final deepCopyData =
+        state.compositionData?.map((e) => Map<String, String>.from(e)).toList();
+
+    for (final composition in deepCopyData!) {
+      composition.remove(event.material);
     }
 
     emit(

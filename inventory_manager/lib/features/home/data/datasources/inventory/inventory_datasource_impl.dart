@@ -26,6 +26,6 @@ class InventoryDatasourceImpl extends InventoryDatasource {
   @override
   Future<bool?> removeFromInventory(String material) async {
     final index = await inventoryGsheet?.values.columnIndexOf(material);
-    return inventoryGsheet?.deleteColumn(index!);
+    return inventoryGsheet?.clearColumn(index!);
   }
 }

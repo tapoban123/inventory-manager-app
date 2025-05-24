@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/utils/utils.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_state.dart';
@@ -23,11 +25,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
   @override
   void initState() {
     context.read<InventoryBloc>().add(FetchFromInventoryEvent());
+    context.read<CompositionBloc>().add(FetchAllCompositionsEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final numberOfCompositions =
+        context.watch<CompositionBloc>().state.compositionData?.length;
+
     return BlocBuilder<InventoryBloc, InventoryStates>(
       builder: (context, state) {
         if (state.loadingStatus == InventoryLoadingStatus.loading) {
@@ -53,9 +59,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       title: data.keys.toList()[index],
                       removeItem: () {
                         materialControllers.removeAt(index);
+
                         context.read<InventoryBloc>().add(
                           RemoveFromInventoryEvent(
                             item: data.keys.toList()[index],
+                          ),
+                        );
+                        context.read<CompositionBloc>().add(
+                          RemoveCompositionMaterialEvent(
+                            material: data.keys.toList()[index],
                           ),
                         );
                       },
@@ -121,9 +133,22 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                           : int.parse(
                                             newMaterialQuantityController.text,
                                           );
+
                                   context.read<InventoryBloc>().add(
                                     AddToInventoryEvent(newItem: items),
                                   );
+                                  context.read<CompositionBloc>().add(
+                                    AddNewCompositionMaterialEvent(
+                                      newMaterialColumn: [
+                                        newMaterialController.text,
+                                        ...List.generate(
+                                          numberOfCompositions!,
+                                          (index) => "0",
+                                        ),
+                                      ],
+                                    ),
+                                  );
+
                                   Navigator.of(context).pop();
                                   materialControllers.add(
                                     TextEditingController(

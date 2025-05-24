@@ -40,7 +40,7 @@ void main() {
   test("update available materials", () async {
     final compositionDatasource = CompositionSheetDatasourceImpl();
 
-    final response = await compositionDatasource.updateAvailableMaterials([]);
+    final response = await compositionDatasource.addCompositionMaterial([]);
     print(response);
   });
   test("update composition", () async {
@@ -53,6 +53,13 @@ void main() {
       "90",
       "56",
     ]);
+    print(response);
+  });
+  
+  test("remove composition material", () async {
+    final compositionDatasource = CompositionSheetDatasourceImpl();
+
+    final response = await compositionDatasource.removeCompositionMaterial("plastic");
     print(response);
   });
 }

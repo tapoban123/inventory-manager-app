@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/utils/utils.dart';
@@ -8,6 +9,7 @@ import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_state.dart';
 import 'package:inventory_manager/features/home/presentation/components/composition_card.dart';
+import 'package:uuid/uuid.dart';
 
 class CompositionScreen extends StatefulWidget {
   const CompositionScreen({super.key});
@@ -96,6 +98,9 @@ class _CompositionScreenState extends State<CompositionScreen> {
   }
 
   void showCreateNewCompositionDialog(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
+    final Map<String, TextEditingController> materialControllers = {};
+
     showDialog(
       context: context,
       builder:
@@ -103,6 +108,7 @@ class _CompositionScreenState extends State<CompositionScreen> {
             title: SizedBox(
               width: 200,
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: "Name",
                   enabledBorder: UnderlineInputBorder(),
@@ -111,15 +117,47 @@ class _CompositionScreenState extends State<CompositionScreen> {
               ),
             ),
 
-            content: _CreateNewCompositionMaterials(),
-            actions: [ElevatedButton(onPressed: () {}, child: Text("Create"))],
+            content: _CreateNewCompositionMaterials(
+              materialControllers: materialControllers,
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  if (nameController.text.isEmpty) {
+                    showToastMessage(
+                      "Please enter a name for the composition.",
+                    );
+                  } else {
+                    final newComposition = {
+                      "composition_id": Uuid().v4(),
+                      "product": nameController.text,
+                      "count": "0",
+                    };
+
+                    final materials = materialControllers.map(
+                      (key, value) => MapEntry(key, value.text),
+                    );
+
+                    newComposition.addAll(materials);
+
+                    context.read<CompositionBloc>().add(
+                      AddNewCompositionEvent(newComposition: newComposition),
+                    );
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text("Create"),
+              ),
+            ],
           ),
     );
   }
 }
 
 class _CreateNewCompositionMaterials extends StatefulWidget {
-  const _CreateNewCompositionMaterials();
+  final Map<String, TextEditingController> materialControllers;
+
+  const _CreateNewCompositionMaterials({required this.materialControllers});
 
   @override
   State<_CreateNewCompositionMaterials> createState() =>
@@ -147,11 +185,70 @@ class __CreateNewCompositionMaterialsState
             final inventoryMaterialNames =
                 state.inventoryData![0].keys.toList();
 
+            if (widget.materialControllers.isEmpty) {
+              for (int i = 0; i < inventoryMaterialNames.length; i++) {
+                widget.materialControllers[inventoryMaterialNames[i]] =
+                    TextEditingController(text: "0");
+              }
+            }
+
             return ListView.builder(
               itemCount: inventoryMaterialNames.length,
               itemBuilder: (context, index) {
+                ValueNotifier<TextEditingController> controller = ValueNotifier(
+                  widget.materialControllers[inventoryMaterialNames[index]]!,
+                );
+
                 return Card(
-                  child: ListTile(title: Text(inventoryMaterialNames[index])),
+                  child: ListTile(
+                    title: Text(inventoryMaterialNames[index]),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (int.parse(controller.value.text) > 0) {
+                              controller.value.text =
+                                  (int.parse(controller.value.text) - 1)
+                                      .toString();
+                            }
+                          },
+                          child: Icon(CupertinoIcons.minus, size: 18),
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: controller,
+                          builder:
+                              (context, controllerValue, child) => SizedBox(
+                                width: 80,
+                                child: TextField(
+                                  controller: controllerValue,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.transparent,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  onTapOutside: (event) {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  style: TextStyle(fontSize: 12),
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller.value.text =
+                                (int.parse(controller.value.text) + 1)
+                                    .toString();
+                          },
+                          child: Icon(CupertinoIcons.add, size: 18),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             );

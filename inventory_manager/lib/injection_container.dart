@@ -11,7 +11,8 @@ import 'package:inventory_manager/features/home/domain/usecases/compositions_use
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_all_compositions.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_specific_composition.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_available_materials.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/add_composition_material.dart';
+import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition_material.dart';
 import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_composition.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/add_material_to_inventory.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/fetch_all_from_inventory.dart';
@@ -38,7 +39,8 @@ void init() {
       fetchAllCompositions: getIt(),
       fetchSpecificComposition: getIt(),
       removeComposition: getIt(),
-      updateAvailableMaterials: getIt(),
+      addCompositionMaterial: getIt(),
+      removeCompositionMaterial: getIt(),
       updateComposition: getIt(),
     ),
   );
@@ -71,7 +73,10 @@ void init() {
     () => RemoveComposition(compositionRepository: getIt()),
   );
   getIt.registerLazySingleton(
-    () => UpdateAvailableMaterials(compositionRepository: getIt()),
+    () => AddCompositionMaterial(compositionRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => RemoveCompositionMaterial(compositionRepository: getIt()),
   );
   getIt.registerLazySingleton(
     () => UpdateComposition(compositionRepository: getIt()),

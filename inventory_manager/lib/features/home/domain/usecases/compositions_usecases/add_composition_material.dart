@@ -1,12 +1,12 @@
 import 'package:inventory_manager/features/home/domain/repository/composition_repository.dart';
 
-class UpdateAvailableMaterials {
+class AddCompositionMaterial {
   final CompositionRepository _compositionRepository;
-  UpdateAvailableMaterials({
+  AddCompositionMaterial({
     required CompositionRepository compositionRepository,
   }) : _compositionRepository = compositionRepository;
 
   Future<bool?> call(List<String> newMaterialColumn) async {
-    return _compositionRepository.updateAvailableMaterials(newMaterialColumn);
+    return _compositionRepository.addCompositionMaterial(newMaterialColumn);
   }
 }

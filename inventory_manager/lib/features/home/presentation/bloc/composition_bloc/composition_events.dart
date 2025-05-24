@@ -31,12 +31,19 @@ class RemoveCompositionEvent extends CompositionEvents {
   List<Object?> get props => [compositionId];
 }
 
-class UpdateAvailableMaterialsEvent extends CompositionEvents {
+class AddNewCompositionMaterialEvent extends CompositionEvents {
   final List<String> newMaterialColumn;
-  UpdateAvailableMaterialsEvent({required this.newMaterialColumn});
+  AddNewCompositionMaterialEvent({required this.newMaterialColumn});
 
   @override
   List<Object?> get props => [newMaterialColumn];
+}
+class RemoveCompositionMaterialEvent extends CompositionEvents {
+  final String material;
+  RemoveCompositionMaterialEvent({required this.material});
+
+  @override
+  List<Object?> get props => [material];
 }
 
 class UpdateCompositionEvent extends CompositionEvents {

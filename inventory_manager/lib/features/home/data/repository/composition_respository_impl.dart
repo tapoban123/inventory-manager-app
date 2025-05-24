@@ -57,10 +57,22 @@ class CompositionRespositoryImpl extends CompositionRepository {
   }
 
   @override
-  Future<bool?> updateAvailableMaterials(List<String> newMaterialColumn) async {
+  Future<bool?> addCompositionMaterial(List<String> newMaterialColumn) async {
+    try {
+      final response = await _compositionSheetDatasource.addCompositionMaterial(
+        newMaterialColumn,
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool?> removeCompositionMaterial(String material) async {
     try {
       final response = await _compositionSheetDatasource
-          .updateAvailableMaterials(newMaterialColumn);
+          .removeCompositionMaterial(material);
       return response;
     } catch (e) {
       return null;
