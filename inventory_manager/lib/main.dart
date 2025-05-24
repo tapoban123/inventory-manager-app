@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/gsheet_config.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/screens/home_screen.dart';
 import 'package:inventory_manager/injection_container.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => BottomNavigationCubit()),
         BlocProvider(create: (context) => getIt<InventoryBloc>()),
+        BlocProvider(create: (context) => getIt<CompositionBloc>()),
       ],
       child: MaterialApp(
         title: 'Inventory Manager',

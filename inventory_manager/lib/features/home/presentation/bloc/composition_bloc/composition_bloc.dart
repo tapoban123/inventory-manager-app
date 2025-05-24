@@ -56,7 +56,7 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     emit(
       state.copyWith(
         loadingStatus: CompositionLoadingStatus.success,
-        compositionData: data,
+        compositionData: data ?? [],
       ),
     );
   }
@@ -141,7 +141,7 @@ class CompositionBloc extends Bloc<CompositionEvents, CompositionStates> {
     }
 
     print(deepCopyData);
-    
+
     emit(state.copyWith(loadingStatus: CompositionLoadingStatus.success));
   }
 }
