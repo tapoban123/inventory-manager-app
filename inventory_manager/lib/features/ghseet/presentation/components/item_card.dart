@@ -23,7 +23,7 @@ class _ItemCardState extends State<ItemCard> {
       child: ListTile(
         leading: IconButton(
           onPressed: widget.removeItem,
-          icon: Icon(CupertinoIcons.minus),
+          icon: Icon(Icons.delete, color: Colors.red),
         ),
         title: Text(widget.title),
         trailing: Row(
@@ -31,11 +31,13 @@ class _ItemCardState extends State<ItemCard> {
           children: [
             IconButton(
               onPressed: () {
-                widget.amountController.text =
-                    (int.parse(widget.amountController.text) + 1).toString();
-                setState(() {});
+                if (int.parse(widget.amountController.text) > 0) {
+                  widget.amountController.text =
+                      (int.parse(widget.amountController.text) - 1).toString();
+                  setState(() {});
+                }
               },
-              icon: Icon(CupertinoIcons.add),
+              icon: Icon(CupertinoIcons.minus),
             ),
             SizedBox(
               width: 50,
@@ -54,16 +56,13 @@ class _ItemCardState extends State<ItemCard> {
                 keyboardType: TextInputType.number,
               ),
             ),
-
             IconButton(
               onPressed: () {
-                if (int.parse(widget.amountController.text) > 0) {
-                  widget.amountController.text =
-                      (int.parse(widget.amountController.text) - 1).toString();
-                  setState(() {});
-                }
+                widget.amountController.text =
+                    (int.parse(widget.amountController.text) + 1).toString();
+                setState(() {});
               },
-              icon: Icon(CupertinoIcons.minus),
+              icon: Icon(CupertinoIcons.add),
             ),
           ],
         ),

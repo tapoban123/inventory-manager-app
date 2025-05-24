@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_manager/core/utils/utils.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_state.dart';
+import 'package:inventory_manager/features/ghseet/presentation/components/bottom_buttons.dart';
 import 'package:inventory_manager/features/ghseet/presentation/components/item_card.dart';
 
 class InventoryScreen extends StatefulWidget {
@@ -33,7 +35,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
         } else if (state.loadingStatus == InventoryLoadingStatus.success) {
           final data = state.inventoryData?[0] as Map<String, String>;
           if (materialControllers.isEmpty) {
-            print(materialControllers);
             for (int i = 0; i < data.keys.length; i++) {
               materialControllers.add(
                 TextEditingController(text: data.values.toList()[i]),
@@ -64,127 +65,88 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ),
               Expanded(
                 flex: 1,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 5),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                            backgroundColor: Colors.indigo,
-                          ),
-                          onPressed: () {
-                            List<int> updatedValues = [];
-                            for (int i = 0; i < data.keys.length; i++) {
-                              updatedValues.add(
-                                int.parse(materialControllers[i].text),
-                              );
-                            }
-                            context.read<InventoryBloc>().add(
-                              UpdateInventoryEvent(
-                                newQuantities: updatedValues,
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Save",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 5),
+                child: BottomButtons(
+                  addNewButtonTitle: "Add New Material",
+                  onSaveCallback: () {
+                    List<int> updatedValues = [];
+                    for (int i = 0; i < data.keys.length; i++) {
+                      updatedValues.add(int.parse(materialControllers[i].text));
+                    }
+                    context.read<InventoryBloc>().add(
+                      UpdateInventoryEvent(newQuantities: updatedValues),
+                    );
 
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                            backgroundColor: Colors.amber,
-                          ),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder:
-                                  (context) => AlertDialog(
-                                    content: SizedBox(
-                                      height: 100,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: TextField(
-                                              controller: newMaterialController,
-                                              decoration: InputDecoration(
-                                                hintText: "Material",
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 200,
-                                            child: TextField(
-                                              controller:
-                                                  newMaterialQuantityController,
-                                              decoration: InputDecoration(
-                                                hintText: "Quantity",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                    showToastMessage("Material Quantities Updated.");
+                  },
+                  addNewCallback: () {
+                    showDialog(
+                      context: context,
+                      builder:
+                          (context) => AlertDialog(
+                            content: SizedBox(
+                              height: 100,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: 200,
+                                    child: TextField(
+                                      controller: newMaterialController,
+                                      decoration: InputDecoration(
+                                        hintText: "Material",
                                       ),
                                     ),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Map<String, int> items = data.map(
-                                            (key, value) =>
-                                                MapEntry(key, int.parse(value)),
-                                          );
-                                          items[newMaterialController.text] =
-                                              newMaterialQuantityController
-                                                      .text
-                                                      .isEmpty
-                                                  ? 0
-                                                  : int.parse(
-                                                    newMaterialQuantityController
-                                                        .text,
-                                                  );
-                                          context.read<InventoryBloc>().add(
-                                            AddToInventoryEvent(newItem: items),
-                                          );
-                                          Navigator.of(context).pop();
-                                          materialControllers.add(
-                                            TextEditingController(
-                                              text:
-                                                  items[newMaterialController
-                                                          .text]
-                                                      .toString(),
-                                            ),
-                                          );
-                                          newMaterialController.clear();
-                                          newMaterialQuantityController.clear();
-                                        },
-                                        child: Text(
-                                          "Save",
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                            );
-                          },
-                          child: Text(
-                            "Add New Material",
-                            style: TextStyle(color: Colors.black),
+                                  SizedBox(
+                                    width: 200,
+                                    child: TextField(
+                                      controller: newMaterialQuantityController,
+                                      decoration: InputDecoration(
+                                        hintText: "Quantity",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Map<String, int> items = data.map(
+                                    (key, value) =>
+                                        MapEntry(key, int.parse(value)),
+                                  );
+                                  items[newMaterialController.text] =
+                                      newMaterialQuantityController.text.isEmpty
+                                          ? 0
+                                          : int.parse(
+                                            newMaterialQuantityController.text,
+                                          );
+                                  context.read<InventoryBloc>().add(
+                                    AddToInventoryEvent(newItem: items),
+                                  );
+                                  Navigator.of(context).pop();
+                                  materialControllers.add(
+                                    TextEditingController(
+                                      text:
+                                          items[newMaterialController.text]
+                                              .toString(),
+                                    ),
+                                  );
+                                  newMaterialController.clear();
+                                  newMaterialQuantityController.clear();
+                                  showToastMessage(
+                                    "New Material added to Inventory.",
+                                  );
+                                },
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ],

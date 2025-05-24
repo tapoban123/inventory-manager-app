@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/bottom_navigation_cubit.dart';
+import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_bloc.dart';
+import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/ghseet/presentation/components/home_bottom_nav_bar.dart';
 import 'package:inventory_manager/features/ghseet/presentation/screens/composition_screen.dart';
 import 'package:inventory_manager/features/ghseet/presentation/screens/inventory_screen.dart';
@@ -25,7 +27,25 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(appbarTitles[state]),
               centerTitle: true,
               actions: [
-                TextButton(onPressed: () {}, child: Text("Sync")),
+                TextButton(
+                  onPressed: () {
+                    if (state == 0) {
+                    } else if (state == 1) {
+                    } else if (state == 2) {
+                      context.read<InventoryBloc>().add(
+                        FetchFromInventoryEvent(),
+                      );
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.refresh, color: Colors.black),
+                      SizedBox(width: 5),
+                      Text("Sync", style: TextStyle(color: Colors.black)),
+                    ],
+                  ),
+                ),
               ],
             ),
             bottomNavigationBar: HomeBottomNavBar(),
