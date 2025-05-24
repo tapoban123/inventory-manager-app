@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_manager/features/ghseet/domain/usecases/add_material_to_inventory.dart';
-import 'package:inventory_manager/features/ghseet/domain/usecases/fetch_all_from_inventory.dart';
-import 'package:inventory_manager/features/ghseet/domain/usecases/remove_material_from_inventory.dart';
-import 'package:inventory_manager/features/ghseet/domain/usecases/update_quantity_in_inventory.dart';
+import 'package:inventory_manager/features/ghseet/domain/usecases/inventory_usecases/add_material_to_inventory.dart';
+import 'package:inventory_manager/features/ghseet/domain/usecases/inventory_usecases/fetch_all_from_inventory.dart';
+import 'package:inventory_manager/features/ghseet/domain/usecases/inventory_usecases/remove_material_from_inventory.dart';
+import 'package:inventory_manager/features/ghseet/domain/usecases/inventory_usecases/update_quantity_in_inventory.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/ghseet/presentation/bloc/inventory_bloc/inventory_state.dart';
 
