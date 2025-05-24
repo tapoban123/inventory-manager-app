@@ -17,7 +17,7 @@ class CompositionSheetDatasourceImpl extends CompositionSheetDatasource {
   @override
   Future<bool?> removeComposition(String compositionId) async {
     final index = await compositionGsheet?.values.rowIndexOf(compositionId);
-    final response = compositionGsheet?.clearRow(index!);
+    final response = compositionGsheet?.deleteRow(index!);
     return response;
   }
 
@@ -41,7 +41,7 @@ class CompositionSheetDatasourceImpl extends CompositionSheetDatasource {
   @override
   Future<bool?> removeCompositionMaterial(String material) async {
     final index = await compositionGsheet?.values.columnIndexOf(material);
-    final response = await compositionGsheet?.clearColumn(index!);
+    final response = await compositionGsheet?.deleteColumn(index!);
     await compositionGsheet?.values.appendColumn([""]);
     return response;
   }

@@ -4,6 +4,8 @@ import 'package:inventory_manager/core/gsheet_config.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/notifications_cubit.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/screens/home_screen.dart';
 import 'package:inventory_manager/injection_container.dart';
 
@@ -23,8 +25,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => BottomNavigationCubit()),
+        BlocProvider(create: (context) => NotificationsCubit()),
         BlocProvider(create: (context) => getIt<InventoryBloc>()),
         BlocProvider(create: (context) => getIt<CompositionBloc>()),
+        BlocProvider(create: (context) => getIt<ProductsBloc>()),
       ],
       child: MaterialApp(
         title: 'Inventory Manager',

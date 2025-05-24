@@ -6,6 +6,7 @@ import 'package:inventory_manager/features/home/presentation/bloc/composition_bl
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_events.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_state.dart';
+import 'package:inventory_manager/features/home/presentation/bloc/notifications_cubit.dart';
 import 'package:inventory_manager/features/home/presentation/components/bottom_buttons.dart';
 import 'package:inventory_manager/features/home/presentation/components/item_card.dart';
 
@@ -40,40 +41,49 @@ class _InventoryScreenState extends State<InventoryScreen> {
           return Center(child: CircularProgressIndicator());
         } else if (state.loadingStatus == InventoryLoadingStatus.success) {
           final data = state.inventoryData?[0] as Map<String, String>;
+
           if (materialControllers.isEmpty) {
             for (int i = 0; i < data.keys.length; i++) {
-              materialControllers.add(
-                TextEditingController(text: data.values.toList()[i]),
-              );
+              final amount = data.values.toList()[i];
+
+              if (int.parse(amount) < 100) {
+                context.read<NotificationsCubit>().addNewNotifications(
+                  "${data.keys.toList()[i]} is less than 100 units.",
+                );
+              }
+              materialControllers.add(TextEditingController(text: amount));
             }
           }
           return Column(
             children: [
               Expanded(
                 flex: 10,
-                child: ListView.builder(
-                  itemCount: data.keys.length,
-                  itemBuilder: (context, index) {
-                    return ItemCard(
-                      amountController: materialControllers[index],
-                      title: data.keys.toList()[index],
-                      removeItem: () {
-                        materialControllers.removeAt(index);
+                child:
+                    data.isEmpty
+                        ? Center(child: Text("No materials present."))
+                        : ListView.builder(
+                          itemCount: data.keys.length,
+                          itemBuilder: (context, index) {
+                            return ItemCard(
+                              amountController: materialControllers[index],
+                              title: data.keys.toList()[index],
+                              removeItem: () {
+                                materialControllers.removeAt(index);
 
-                        context.read<InventoryBloc>().add(
-                          RemoveFromInventoryEvent(
-                            item: data.keys.toList()[index],
-                          ),
-                        );
-                        context.read<CompositionBloc>().add(
-                          RemoveCompositionMaterialEvent(
-                            material: data.keys.toList()[index],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                                context.read<InventoryBloc>().add(
+                                  RemoveFromInventoryEvent(
+                                    item: data.keys.toList()[index],
+                                  ),
+                                );
+                                context.read<CompositionBloc>().add(
+                                  RemoveCompositionMaterialEvent(
+                                    material: data.keys.toList()[index],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
               ),
               Expanded(
                 flex: 1,
@@ -149,6 +159,17 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                     ),
                                   );
 
+                                  if (int.parse(
+                                        newMaterialQuantityController.text,
+                                      ) <
+                                      100) {
+                                    context
+                                        .read<NotificationsCubit>()
+                                        .addNewNotifications(
+                                          "${newMaterialController.text} is less than 100 units.",
+                                        );
+                                  }
+
                                   Navigator.of(context).pop();
                                   materialControllers.add(
                                     TextEditingController(
@@ -157,6 +178,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                               .toString(),
                                     ),
                                   );
+
                                   newMaterialController.clear();
                                   newMaterialQuantityController.clear();
                                   showToastMessage(

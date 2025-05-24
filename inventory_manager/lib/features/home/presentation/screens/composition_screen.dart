@@ -39,34 +39,40 @@ class _CompositionScreenState extends State<CompositionScreen> {
             children: [
               Expanded(
                 flex: 10,
-                child: ListView.builder(
-                  itemCount: compositionData.length,
-                  itemBuilder: (context, index) {
-                    final composition = compositionData[index];
-                    final Map<String, String> materials = {};
+                child:
+                    compositionData.isEmpty
+                        ? Center(child: Text("No compositions present."))
+                        : ListView.builder(
+                          itemCount: compositionData.length,
+                          itemBuilder: (context, index) {
+                            final composition = compositionData[index];
+                            final Map<String, String> materials = {};
 
-                    for (final item in composition.keys.toList().sublist(3)) {
-                      materials[item] = composition[item]!;
-                    }
+                            for (final item in composition.keys
+                                .toList()
+                                .sublist(3)) {
+                              materials[item] = composition[item]!;
+                            }
 
-                    return CompositionCard(
-                      compositionId: composition["composition_id"]!,
-                      product: composition["product"]!,
-                      count: composition["count"]!,
-                      compositionTitle: composition["product"]!,
-                      materials: materials,
-                      onDeleteCallback: () {
-                        context.read<CompositionBloc>().add(
-                          RemoveCompositionEvent(
-                            compositionId: composition["composition_id"]!,
-                          ),
-                        );
+                            return CompositionCard(
+                              compositionId: composition["composition_id"]!,
+                              product: composition["product"]!,
+                              count: composition["count"]!,
+                              compositionTitle: composition["product"]!,
+                              materials: materials,
+                              onDeleteCallback: () {
+                                context.read<CompositionBloc>().add(
+                                  RemoveCompositionEvent(
+                                    compositionId:
+                                        composition["composition_id"]!,
+                                  ),
+                                );
 
-                        showToastMessage("Deleted composition");
-                      },
-                    );
-                  },
-                ),
+                                showToastMessage("Deleted composition");
+                              },
+                            );
+                          },
+                        ),
               ),
               Expanded(
                 flex: 1,

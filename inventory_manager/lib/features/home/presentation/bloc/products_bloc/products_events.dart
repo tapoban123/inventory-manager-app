@@ -7,13 +7,13 @@ class FetchAllProductsEvent extends ProductionEvents {
   List<Object?> get props => [];
 }
 
-class IncreaseProductionCountEvent extends ProductionEvents {
+class IncreaseProductsCountEvent extends ProductionEvents {
   final String compositionId;
   final String newCount;
   final int countIncreased;
   final Map<String, String> materials;
 
-  IncreaseProductionCountEvent({
+  IncreaseProductsCountEvent({
     required this.compositionId,
     required this.newCount,
     required this.materials,
@@ -29,13 +29,13 @@ class IncreaseProductionCountEvent extends ProductionEvents {
   ];
 }
 
-class DecreaseProductionCountEvent extends ProductionEvents {
+class DecreaseProductsCountEvent extends ProductionEvents {
   final String compositionId;
   final String newCount;
   final int countDecreased;
   final Map<String, String> materials;
 
-  DecreaseProductionCountEvent({
+  DecreaseProductsCountEvent({
     required this.compositionId,
     required this.newCount,
     required this.countDecreased,

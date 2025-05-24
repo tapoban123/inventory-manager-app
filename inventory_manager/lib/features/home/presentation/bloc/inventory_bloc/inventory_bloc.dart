@@ -49,7 +49,7 @@ class InventoryBloc extends Bloc<InventoryEvents, InventoryStates> {
     emit(
       state.copyWith(
         loadingStatus: InventoryLoadingStatus.success,
-        inventoryData: data,
+        inventoryData: data ?? [{}],
       ),
     );
   }

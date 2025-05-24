@@ -5,7 +5,7 @@ class SetProductionCount {
   SetProductionCount({required ProductsRepository productsRepository})
     : _productsRepository = productsRepository;
 
-  Future call(String compositionId, String newCount) async {
+  Future<bool?> call(String compositionId, String newCount) async {
     return await _productsRepository.setProductCount(compositionId, newCount);
   }
 }

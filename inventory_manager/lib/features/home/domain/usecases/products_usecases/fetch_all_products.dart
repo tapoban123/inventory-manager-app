@@ -5,7 +5,7 @@ class FetchAllProducts {
   FetchAllProducts({required ProductsRepository productsRepository})
     : _productsRepository = productsRepository;
 
-  Future call() async {
+  Future<List<Map<String, String>>?> call() async {
     return await _productsRepository.fetchAllProducts();
   }
 }

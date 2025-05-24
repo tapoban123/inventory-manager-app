@@ -13,7 +13,7 @@ class ProductsDatasourceImpl extends ProductsDatasource {
 
   @override
   Future<List<Map<String, String>>?> fetchAllProducts() async {
-    final response = await compositionGsheet?.values.map.allColumns(fromRow: 2);
+    final response = await compositionGsheet?.values.map.allRows();
     return response;
   }
 }
