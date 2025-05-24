@@ -17,19 +17,34 @@ class CompositionSheetDatasourceImpl extends CompositionSheetDatasource {
   @override
   Future<bool?> removeComposition(String compositionId) async {
     final index = await compositionGsheet?.values.rowIndexOf(compositionId);
-    final response= compositionGsheet?.deleteRow(index!);
+    final response = compositionGsheet?.deleteRow(index!);
     return response;
   }
 
   @override
-  Future<void> fetchSpecificComposition() {
-    // TODO: implement fetchSpecificComposition
-    throw UnimplementedError();
+  Future<Map<String, String>?> fetchSpecificComposition(
+    String compositionId,
+  ) async {
+    final index = await compositionGsheet?.values.rowIndexOf(compositionId);
+    final composition = await compositionGsheet?.values.map.row(index!);
+    return composition;
   }
 
   @override
-  Future<void> updateAvailableMaterials() {
-    // TODO: implement updateAvailableMaterials
-    throw UnimplementedError();
+  Future<bool?> updateAvailableMaterials(List<String> newMaterialColumn) async {
+    final response = await compositionGsheet?.values.appendColumn(
+      newMaterialColumn,
+    );
+    return response;
+  }
+
+  @override
+  Future<bool?> updateComposition(List<List<String>> updatedComposition) async {
+    final response = await compositionGsheet?.values.insertRows(
+      2,
+      updatedComposition,
+    );
+
+    return response;
   }
 }

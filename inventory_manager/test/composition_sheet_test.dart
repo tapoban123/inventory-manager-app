@@ -29,4 +29,28 @@ void main() {
     final response = await compositionDatasource.removeComposition("");
     print(response);
   });
+  test("fetch specific composition", () async {
+    final compositionDatasource = CompositionSheetDatasourceImpl();
+
+    final response = await compositionDatasource.fetchSpecificComposition(
+      "165",
+    );
+    print(response);
+  });
+  test("update available materials", () async {
+    final compositionDatasource = CompositionSheetDatasourceImpl();
+
+    final response = await compositionDatasource.updateAvailableMaterials([]);
+    print(response);
+  });
+  test("update composition", () async {
+    final compositionDatasource = CompositionSheetDatasourceImpl();
+
+    final response = await compositionDatasource.updateComposition([
+      ["125", "handwash", "78", "90", "56"],
+      ["165", "camera", "3", "2", "2000"],
+      ["123", "book", "7", "800", "500"],
+    ]);
+    print(response);
+  });
 }
