@@ -21,10 +21,17 @@ class NotificationsScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: state.length,
             itemBuilder: (context, index) {
+              final text = state.reversed.toList()[index];
               return Card(
                 child: ListTile(
-                  leading: Icon(Icons.warning, color: Colors.red),
-                  title: Text(state.reversed.toList()[index]),
+                  leading: Icon(Icons.warning, color: Colors.amber),
+                  title: Text(text),
+                  trailing: IconButton(
+                    onPressed: () {
+                      context.read<NotificationsCubit>().removeExpiredNotifications(text);
+                    },
+                    icon: Icon(Icons.delete, color: Colors.red),
+                  ),
                 ),
               );
             },

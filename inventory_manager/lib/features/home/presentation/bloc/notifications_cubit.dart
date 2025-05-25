@@ -6,4 +6,10 @@ class NotificationsCubit extends Cubit<List<String>> {
   void addNewNotifications(String newNotification) {
     emit([...state, newNotification]);
   }
+
+  void removeExpiredNotifications(String oldNotification) {
+    final List<String> deepCopyNotifications = List.from(state);
+    deepCopyNotifications.remove(oldNotification);
+    emit(deepCopyNotifications);
+  }
 }

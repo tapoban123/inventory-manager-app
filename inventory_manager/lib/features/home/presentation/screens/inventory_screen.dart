@@ -161,10 +161,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                     ),
                                   );
 
-                                  if (int.parse(
-                                        newMaterialQuantityController.text,
-                                      ) <
-                                      100) {
+                                  if (items[newMaterialController.text]! < 100) {
                                     context
                                         .read<NotificationsCubit>()
                                         .addNewNotifications(

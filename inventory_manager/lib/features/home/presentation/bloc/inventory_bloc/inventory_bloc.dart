@@ -88,6 +88,8 @@ class InventoryBloc extends Bloc<InventoryEvents, InventoryStates> {
 
     deepCopyData.remove(event.item);
 
+    _updateMaterialsInLocaldb.call(deepCopyData);
+
     emit(state.copyWith(inventoryData: deepCopyData));
   }
 }

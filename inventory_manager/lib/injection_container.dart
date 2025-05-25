@@ -39,6 +39,7 @@ void init() {
       setProductionCount: getIt(),
       updateQuantityInInventory: getIt(),
       fetchAllFromInventory: getIt(),
+      updateMaterialsInLocaldb: getIt(),
     ),
   );
 
