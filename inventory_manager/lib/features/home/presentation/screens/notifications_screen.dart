@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_manager/core/utils/globals.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/notifications_cubit.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -29,6 +30,7 @@ class NotificationsScreen extends StatelessWidget {
                   trailing: IconButton(
                     onPressed: () {
                       context.read<NotificationsCubit>().removeExpiredNotifications(text);
+                      inventoryNotifications.remove(text);
                     },
                     icon: Icon(Icons.delete, color: Colors.red),
                   ),
