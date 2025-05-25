@@ -6,7 +6,7 @@ class FetchAllFromInventory {
   FetchAllFromInventory({required InventoryRepository inventoryRepository})
     : _inventoryRepository = inventoryRepository;
 
-  Future<List<Map<String, String>>?> call() async {
+  Future<Map<String, String>?> call() async {
     return await _inventoryRepository.fetchAllFromInventory();
   }
 }

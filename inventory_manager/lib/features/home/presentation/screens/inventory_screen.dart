@@ -40,7 +40,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
         if (state.loadingStatus == InventoryLoadingStatus.loading) {
           return Center(child: CircularProgressIndicator());
         } else if (state.loadingStatus == InventoryLoadingStatus.success) {
-          final data = state.inventoryData?[0] as Map<String, String>;
+          final data = state.inventoryData as Map<String, String>;
 
           if (materialControllers.isEmpty) {
             for (int i = 0; i < data.keys.length; i++) {

@@ -1,3 +1,9 @@
+import 'package:inventory_manager/features/home/data/datasources/inventory_local_datasource.dart';
+import 'package:inventory_manager/features/home/data/datasources/local_hive/inventory_local_datasource_impl.dart';
+import 'package:inventory_manager/features/home/data/repository/inventory_local_hive_repository_impl.dart';
+import 'package:inventory_manager/features/home/domain/repository/inventory_local_hive_repository.dart';
+import 'package:inventory_manager/features/home/domain/usecases/inventory_local_hive_usecases/fetch_all_materials_from_localdb.dart';
+import 'package:inventory_manager/features/home/domain/usecases/inventory_local_hive_usecases/update_materials_in_localdb.dart';
 import 'package:inventory_manager/injection_container_imports.dart';
 
 final getIt = GetIt.instance;
@@ -10,6 +16,8 @@ void init() {
       updateQuantityInInventory: getIt(),
       removeMaterialFromInventory: getIt(),
       fetchAllFromInventory: getIt(),
+      fetchAllMaterialsFromLocaldb: getIt(),
+      updateMaterialsInLocaldb: getIt(),
     ),
   );
   getIt.registerFactory(
@@ -77,6 +85,14 @@ void init() {
     () => SetProductionCount(productsRepository: getIt()),
   );
 
+  // inventory localDB usecases
+  getIt.registerLazySingleton(
+    () => FetchAllMaterialsFromLocaldb(inventoryLocalHiveRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => UpdateMaterialsInLocaldb(inventoryLocalHiveRepository: getIt()),
+  );
+
   // repositories
   getIt.registerLazySingleton<InventoryRepository>(
     () => InventoryRepositoryImpl(inventoryDatasource: getIt()),
@@ -86,6 +102,9 @@ void init() {
   );
   getIt.registerLazySingleton<ProductsRepository>(
     () => ProductsRepositoryImpl(productsDatasource: getIt()),
+  );
+  getIt.registerLazySingleton<InventoryLocalHiveRepository>(
+    () => InventoryLocalHiveRepositoryImpl(inventoryLocalDatasource: getIt()),
   );
 
   // datasources
@@ -97,5 +116,8 @@ void init() {
   );
   getIt.registerLazySingleton<ProductsDatasource>(
     () => ProductsDatasourceImpl(),
+  );
+  getIt.registerLazySingleton<InventoryLocalDatasource>(
+    () => InventoryLocalDatasourceImpl(),
   );
 }

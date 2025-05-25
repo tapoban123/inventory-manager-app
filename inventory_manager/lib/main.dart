@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:inventory_manager/core/gsheet_config.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:inventory_manager/injection_container.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Hive.initFlutter();
   await gSheetInitialise();
   init();
   runApp(const MyApp());

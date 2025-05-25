@@ -49,7 +49,7 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
 
     bool isInsufficientResources = false;
 
-    final inventoryData = (await _fetchAllFromInventory())?[0] ?? {};
+    final inventoryData = (await _fetchAllFromInventory()) ?? {};
     final keys = inventoryData.keys.toList();
     final presentQuantity = inventoryData.values.toList();
     final Map<String, int> amountToBeDeductedPerMaterial = {};
@@ -116,7 +116,7 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
     await _setProductionCount.call(event.compositionId, event.newCount);
 
     final Map<String, String> inventoryData =
-        (await _fetchAllFromInventory())?[0] ?? {};
+        (await _fetchAllFromInventory()) ?? {};
     final keys = inventoryData.keys.toList();
     final presentQuantity = inventoryData.values.toList();
     final Map<String, int> amountToBeIncreasedPerMaterial = {};

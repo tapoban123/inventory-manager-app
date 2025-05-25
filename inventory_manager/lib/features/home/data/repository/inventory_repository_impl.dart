@@ -17,10 +17,10 @@ class InventoryRepositoryImpl extends InventoryRepository {
   }
 
   @override
-  Future<List<Map<String, String>>?> fetchAllFromInventory() async {
+  Future<Map<String, String>?> fetchAllFromInventory() async {
     try {
       final materials = await _inventoryDatasource.fetchFromInventory();
-      return materials;
+      return materials?[0];
     } catch (e) {
       return null;
     }

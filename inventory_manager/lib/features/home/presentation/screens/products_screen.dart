@@ -29,7 +29,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return BlocConsumer<ProductsBloc, ProductsStates>(
       // listenWhen: (previous, current) => previous.error != current.error,
       listener: (context, state) {
-        print(state.error);
         if (state.error == "INSUFFICIENT RESOURCES") {
           showToastMessage("Not enough resources to proceed the action.");
         }

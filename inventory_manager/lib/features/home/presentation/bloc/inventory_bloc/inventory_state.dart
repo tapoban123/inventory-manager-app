@@ -4,7 +4,7 @@ enum InventoryLoadingStatus { initial, loading, success, failure }
 
 final class InventoryStates extends Equatable {
   final InventoryLoadingStatus loadingStatus;
-  final List<Map<String, String>>? inventoryData;
+  final Map<String, String>? inventoryData;
   final String? error;
 
   const InventoryStates({
@@ -15,7 +15,7 @@ final class InventoryStates extends Equatable {
 
   InventoryStates copyWith({
     InventoryLoadingStatus? loadingStatus,
-    List<Map<String, String>>? inventoryData,
+    Map<String, String>? inventoryData,
     String? error,
   }) {
     return InventoryStates(
