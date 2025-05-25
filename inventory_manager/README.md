@@ -7,6 +7,7 @@
 ## Tech Stack:
 
 - `Flutter Bloc`
+- `Hive_Flutter`
 - `Get_it`
 - `Gsheets`
 - `Equatable`
