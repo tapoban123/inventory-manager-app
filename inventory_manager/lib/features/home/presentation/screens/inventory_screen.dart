@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_manager/core/theme/theme_cubit.dart';
+import 'package:inventory_manager/core/theme/themes_toggle.dart';
 import 'package:inventory_manager/core/utils/utils.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
@@ -185,9 +187,17 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                     "New Material added to Inventory.",
                                   );
                                 },
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(color: Colors.black),
+                                child: BlocBuilder<ThemeCubit, ThemesOptions?>(
+                                  builder:
+                                      (context, themeState) => Text(
+                                        "Save",
+                                        style: TextStyle(
+                                          color:
+                                              themeState == ThemesOptions.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                        ),
+                                      ),
                                 ),
                               ),
                             ],

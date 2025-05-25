@@ -7,23 +7,22 @@ class InventoryLocalDatasourceImpl extends InventoryLocalDatasource {
   final String _inventoryKey = HiveKeys.inventoryKey.name;
 
   Future<void> _initHive() async {
-    final String box = HiveBoxName.inventoryBox.name;
-    _hiveBox = await Hive.openBox(box);
+    _hiveBox = await Hive.openBox(HiveBoxName.inventoryBox.name);
   }
 
   @override
   Future<Map<dynamic, dynamic>?> fetchMaterialsFromInventory() async {
     await _initHive();
-    final  inventoryData = await _hiveBox.get(
-      _inventoryKey,
-    );
+    final inventoryData = await _hiveBox.get(_inventoryKey);
     await _hiveBox.close();
 
     return inventoryData;
   }
 
   @override
-  Future<void> updateMaterialsInInventory(Map<String, String>? materials) async {
+  Future<void> updateMaterialsInInventory(
+    Map<String, String>? materials,
+  ) async {
     await _initHive();
     await _hiveBox.put(_inventoryKey, materials);
     await _hiveBox.close();

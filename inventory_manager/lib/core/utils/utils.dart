@@ -3,14 +3,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 enum HiveBoxName{
   inventoryBox("inventory"),
-  compositionBox("compositions");
+  compositionBox("compositions"),
+  themeBox("theme");
 
   final String name;
   const HiveBoxName(this.name);
 }
 enum HiveKeys{
   inventoryKey("inventoryKey"),
-  compositionKey("compositionsKey");
+  compositionKey("compositionsKey"),
+  themeKey("themeKey");
 
   final String name;
   const HiveKeys(this.name);

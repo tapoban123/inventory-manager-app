@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_manager/core/theme/theme_cubit.dart';
+import 'package:inventory_manager/core/theme/themes_toggle.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/products_bloc/products_events.dart';
@@ -9,6 +11,8 @@ class HomeBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = context.watch<ThemeCubit>().state;
+
     return Theme(
       data: ThemeData(
         splashColor: Colors.transparent,
@@ -17,7 +21,14 @@ class HomeBottomNavBar extends StatelessWidget {
       child: BlocBuilder<BottomNavigationCubit, int>(
         builder:
             (context, state) => BottomNavigationBar(
-              selectedItemColor: Colors.black,
+              backgroundColor:
+                  currentTheme == ThemesOptions.dark
+                      ? Colors.transparent
+                      : Theme.of(context).scaffoldBackgroundColor,
+              selectedItemColor:
+                  currentTheme == ThemesOptions.dark
+                      ? Colors.white
+                      : Colors.black,
               selectedFontSize: 15,
               unselectedItemColor: Colors.grey.shade500,
               currentIndex: state,

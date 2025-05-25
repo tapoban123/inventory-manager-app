@@ -1,3 +1,5 @@
+import 'package:inventory_manager/core/theme/theme_cubit.dart';
+import 'package:inventory_manager/core/theme/themes_toggle.dart';
 import 'package:inventory_manager/features/home/data/datasources/inventory_local_datasource.dart';
 import 'package:inventory_manager/features/home/data/datasources/local_hive/inventory_local_datasource_impl.dart';
 import 'package:inventory_manager/features/home/data/repository/inventory_local_hive_repository_impl.dart';
@@ -39,6 +41,10 @@ void init() {
       fetchAllFromInventory: getIt(),
     ),
   );
+
+  // theme
+  getIt.registerFactory(() => ThemeCubit(themesToggle: getIt()));
+  getIt.registerLazySingleton<ThemesToggle>(() => ThemesToggle());
 
   // Inventory usecases
   getIt.registerLazySingleton(
