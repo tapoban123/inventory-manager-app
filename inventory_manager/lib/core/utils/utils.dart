@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' show Color;
 import 'package:fluttertoast/fluttertoast.dart';
 
-enum HiveBoxName{
+enum HiveBoxName {
   inventoryBox("inventory"),
   compositionBox("compositions"),
   themeBox("theme");
@@ -9,7 +9,8 @@ enum HiveBoxName{
   final String name;
   const HiveBoxName(this.name);
 }
-enum HiveKeys{
+
+enum HiveKeys {
   inventoryKey("inventoryKey"),
   compositionKey("compositionsKey"),
   themeKey("themeKey");

@@ -29,7 +29,9 @@ class NotificationsScreen extends StatelessWidget {
                   title: Text(text),
                   trailing: IconButton(
                     onPressed: () {
-                      context.read<NotificationsCubit>().removeExpiredNotifications(text);
+                      context
+                          .read<NotificationsCubit>()
+                          .removeExpiredNotifications(text);
                       inventoryNotifications.remove(text);
                     },
                     icon: Icon(Icons.delete, color: Colors.red),

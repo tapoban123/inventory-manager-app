@@ -2,11 +2,12 @@ import 'package:inventory_manager/features/home/domain/repository/composition_re
 
 class AddCompositionMaterial {
   final CompositionRepository _compositionRepository;
-  AddCompositionMaterial({
-    required CompositionRepository compositionRepository,
-  }) : _compositionRepository = compositionRepository;
+  AddCompositionMaterial({required CompositionRepository compositionRepository})
+    : _compositionRepository = compositionRepository;
 
   Future<bool?> call(List<String> newMaterialColumn) async {
-    return await _compositionRepository.addCompositionMaterial(newMaterialColumn);
+    return await _compositionRepository.addCompositionMaterial(
+      newMaterialColumn,
+    );
   }
 }

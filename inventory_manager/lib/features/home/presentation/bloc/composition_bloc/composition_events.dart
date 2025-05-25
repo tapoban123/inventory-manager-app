@@ -38,6 +38,7 @@ class AddNewCompositionMaterialEvent extends CompositionEvents {
   @override
   List<Object?> get props => [newMaterialColumn];
 }
+
 class RemoveCompositionMaterialEvent extends CompositionEvents {
   final String material;
   RemoveCompositionMaterialEvent({required this.material});

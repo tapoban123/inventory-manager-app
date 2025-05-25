@@ -55,11 +55,13 @@ void main() {
     ]);
     print(response);
   });
-  
+
   test("remove composition material", () async {
     final compositionDatasource = CompositionSheetDatasourceImpl();
 
-    final response = await compositionDatasource.removeCompositionMaterial("plastic");
+    final response = await compositionDatasource.removeCompositionMaterial(
+      "plastic",
+    );
     print(response);
   });
 }

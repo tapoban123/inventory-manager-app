@@ -188,8 +188,7 @@ class __CreateNewCompositionMaterialsState
           if (state.loadingStatus == InventoryLoadingStatus.loading) {
             return Center(child: CircularProgressIndicator());
           } else if (state.loadingStatus == InventoryLoadingStatus.success) {
-            final inventoryMaterialNames =
-                state.inventoryData!.keys.toList();
+            final inventoryMaterialNames = state.inventoryData!.keys.toList();
 
             if (widget.materialControllers.isEmpty) {
               for (int i = 0; i < inventoryMaterialNames.length; i++) {
