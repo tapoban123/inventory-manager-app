@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 enum InventoryLoadingStatus { initial, loading, success, failure }
@@ -26,5 +27,9 @@ final class InventoryStates extends Equatable {
   }
 
   @override
-  List<Object?> get props => [loadingStatus, inventoryData, error];
+  List<Object?> get props => [
+    loadingStatus,
+    DeepCollectionEquality().hash(inventoryData),
+    error,
+  ];
 }

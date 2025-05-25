@@ -72,13 +72,13 @@ class InventoryBloc extends Bloc<InventoryEvents, InventoryStates> {
       await _updateMaterialsInLocaldb.call(data);
       dataInLocalDb = await _fetchAllFromInventory.call();
     }
+    log("Working fetch");
+    log(dataInLocalDb.toString());
+    log("State = ${state.inventoryData}");
 
-    emit(
-      state.copyWith(
-        loadingStatus: InventoryLoadingStatus.success,
-        inventoryData: dataInLocalDb ?? {},
-      ),
-    );
+    emit(state.copyWith(loadingStatus: InventoryLoadingStatus.success));
+    emit(state.copyWith(inventoryData: Map<String, String>.from(dataInLocalDb ?? {})));
+    emit(state.copyWith(inventoryData: Map<String, String>.from(dataInLocalDb ?? {})));
   }
 
   void removeFromInventory(RemoveFromInventoryEvent event, Emitter emit) {

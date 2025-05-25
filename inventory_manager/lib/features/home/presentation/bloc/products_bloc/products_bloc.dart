@@ -89,11 +89,13 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
         }
       }
 
+      await _updateMaterialsInLocaldb.call(updatedInventory);
+      
       await _setProductionCount.call(event.compositionId, event.newCount);
       await _updateQuantityInInventory.call(
         updatedInventory.values.toList().map((e) => int.parse(e)).toList(),
       );
-      _updateMaterialsInLocaldb.call(updatedInventory);
+      
 
       emit(
         state.copyWith(
