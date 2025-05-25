@@ -1,32 +1,4 @@
-import 'package:get_it/get_it.dart';
-import 'package:inventory_manager/features/home/data/datasources/composition/composition_sheet_datasource_impl.dart';
-import 'package:inventory_manager/features/home/data/datasources/composition_sheet_datasource.dart';
-import 'package:inventory_manager/features/home/data/datasources/inventory/inventory_datasource_impl.dart';
-import 'package:inventory_manager/features/home/data/datasources/inventory_datasource.dart';
-import 'package:inventory_manager/features/home/data/datasources/products/products_datasource_impl.dart';
-import 'package:inventory_manager/features/home/data/datasources/products_datasource.dart';
-import 'package:inventory_manager/features/home/data/repository/composition_respository_impl.dart';
-import 'package:inventory_manager/features/home/data/repository/inventory_repository_impl.dart';
-import 'package:inventory_manager/features/home/data/repository/products_repository_impl.dart';
-import 'package:inventory_manager/features/home/domain/repository/composition_repository.dart';
-import 'package:inventory_manager/features/home/domain/repository/inventory_repository.dart';
-import 'package:inventory_manager/features/home/domain/repository/products_repository.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/create_new_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_all_compositions.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/fetch_specific_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/add_composition_material.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/remove_composition_material.dart';
-import 'package:inventory_manager/features/home/domain/usecases/compositions_usecases/update_composition.dart';
-import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/add_material_to_inventory.dart';
-import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/fetch_all_from_inventory.dart';
-import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/remove_material_from_inventory.dart';
-import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/update_quantity_in_inventory.dart';
-import 'package:inventory_manager/features/home/domain/usecases/products_usecases/fetch_all_products.dart';
-import 'package:inventory_manager/features/home/domain/usecases/products_usecases/set_production_count.dart';
-import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
-import 'package:inventory_manager/features/home/presentation/bloc/inventory_bloc/inventory_bloc.dart';
-import 'package:inventory_manager/features/home/presentation/bloc/products_bloc/products_bloc.dart';
+import 'package:inventory_manager/injection_container_imports.dart';
 
 final getIt = GetIt.instance;
 
