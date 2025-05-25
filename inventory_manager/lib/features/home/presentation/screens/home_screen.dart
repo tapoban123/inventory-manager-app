@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/theme/theme_cubit.dart';
 import 'package:inventory_manager/core/theme/themes_toggle.dart';
+import 'package:inventory_manager/core/utils/globals.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/bottom_navigation_cubit.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
@@ -105,7 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else if (state == 2) {
                                 context.read<InventoryBloc>().add(
-                                  FetchFromInventoryEvent(),
+                                  FetchFromInventoryEvent(
+                                    notifications: inventoryNotifications,
+                                    quantityControllers:
+                                        inventoryMaterialControllers,
+                                  ),
                                 );
                               }
                             },

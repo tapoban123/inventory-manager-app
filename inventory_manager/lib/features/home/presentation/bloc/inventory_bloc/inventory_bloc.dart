@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_local_hive_usecases/fetch_all_materials_from_localdb.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_local_hive_usecases/update_materials_in_localdb.dart';
@@ -72,13 +73,29 @@ class InventoryBloc extends Bloc<InventoryEvents, InventoryStates> {
       await _updateMaterialsInLocaldb.call(data);
       dataInLocalDb = await _fetchAllFromInventory.call();
     }
-    log("Working fetch");
-    log(dataInLocalDb.toString());
-    log("State = ${state.inventoryData}");
+
+    if (event.quantityControllers != null) {
+      event.quantityControllers!.clear();
+      event.notifications!.clear();
+      for (int i = 0; i < dataInLocalDb!.keys.length; i++) {
+        final amount = dataInLocalDb.values.toList()[i];
+
+        event.quantityControllers!.add(TextEditingController(text: amount));
+        if (int.parse(amount) < 100) {
+          event.notifications?.add(
+            "${dataInLocalDb.keys.toList()[i]} is less than 100 units.",
+          );
+        }
+      }
+    }
 
     emit(state.copyWith(loadingStatus: InventoryLoadingStatus.success));
-    emit(state.copyWith(inventoryData: Map<String, String>.from(dataInLocalDb ?? {})));
-    emit(state.copyWith(inventoryData: Map<String, String>.from(dataInLocalDb ?? {})));
+    emit(
+      state.copyWith(
+        inventoryData: Map<String, String>.from(dataInLocalDb ?? {}),
+      ),
+    );
+    // emit(state.copyWith(inventoryData: Map<String, String>.from(dataInLocalDb ?? {})));
   }
 
   void removeFromInventory(RemoveFromInventoryEvent event, Emitter emit) {

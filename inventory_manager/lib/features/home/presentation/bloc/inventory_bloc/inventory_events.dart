@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 
 sealed class InventoryEvents extends Equatable {}
 
@@ -21,8 +22,11 @@ class RemoveFromInventoryEvent extends InventoryEvents {
 }
 
 class FetchFromInventoryEvent extends InventoryEvents {
+  final List<TextEditingController>? quantityControllers;
+  final List<String>? notifications;
+  FetchFromInventoryEvent({this.quantityControllers, this.notifications});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [quantityControllers, notifications];
 }
 
 class UpdateInventoryEvent extends InventoryEvents {

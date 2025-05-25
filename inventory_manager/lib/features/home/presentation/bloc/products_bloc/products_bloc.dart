@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_local_hive_usecases/update_materials_in_localdb.dart';
 import 'package:inventory_manager/features/home/domain/usecases/inventory_usecases/fetch_all_from_inventory.dart';
@@ -67,7 +69,7 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
     final Map<String, String> updatedInventory = {};
 
     for (int i = 0; i < keys.length; i++) {
-      if (int.parse(presentQuantity[i]) > newQuantity[i]) {
+      if (int.parse(presentQuantity[i]) >= newQuantity[i]) {
         updatedInventory[keys[i]] =
             (int.parse(presentQuantity[i]) - newQuantity[i]).toString();
       } else {
@@ -75,7 +77,7 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
         break;
       }
     }
-
+    log(newQuantity.toString());
     if (isInsufficientResources) {
       emit(state.copyWith(error: "INSUFFICIENT RESOURCES"));
       emit(state.copyWith(error: ""));
@@ -90,12 +92,11 @@ class ProductsBloc extends Bloc<ProductionEvents, ProductsStates> {
       }
 
       await _updateMaterialsInLocaldb.call(updatedInventory);
-      
+
       await _setProductionCount.call(event.compositionId, event.newCount);
       await _updateQuantityInInventory.call(
         updatedInventory.values.toList().map((e) => int.parse(e)).toList(),
       );
-      
 
       emit(
         state.copyWith(

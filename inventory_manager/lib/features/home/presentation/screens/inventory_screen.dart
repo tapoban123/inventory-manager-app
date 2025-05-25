@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_manager/core/theme/theme_cubit.dart';
 import 'package:inventory_manager/core/theme/themes_toggle.dart';
+import 'package:inventory_manager/core/utils/globals.dart';
 import 'package:inventory_manager/core/utils/utils.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_bloc.dart';
 import 'package:inventory_manager/features/home/presentation/bloc/composition_bloc/composition_events.dart';
@@ -23,11 +24,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
   TextEditingController newMaterialController = TextEditingController();
   TextEditingController newMaterialQuantityController = TextEditingController();
 
-  final List<TextEditingController> materialControllers = [];
-
   @override
   void initState() {
-    context.read<InventoryBloc>().add(FetchFromInventoryEvent());
+    context.read<InventoryBloc>().add(
+      FetchFromInventoryEvent(
+        quantityControllers: inventoryMaterialControllers,
+        notifications: inventoryNotifications,
+      ),
+    );
     context.read<CompositionBloc>().add(FetchAllCompositionsEvent());
     super.initState();
   }
@@ -36,6 +40,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
   Widget build(BuildContext context) {
     final numberOfCompositions =
         context.watch<CompositionBloc>().state.compositionData?.length;
+    final notificationsCount = context.watch<NotificationsCubit>().state.length;
 
     return BlocBuilder<InventoryBloc, InventoryStates>(
       builder: (context, state) {
@@ -44,18 +49,27 @@ class _InventoryScreenState extends State<InventoryScreen> {
         } else if (state.loadingStatus == InventoryLoadingStatus.success) {
           final data = state.inventoryData as Map<String, String>;
 
-          if (materialControllers.isEmpty) {
-            for (int i = 0; i < data.keys.length; i++) {
-              final amount = data.values.toList()[i];
-
-              if (int.parse(amount) < 100) {
-                context.read<NotificationsCubit>().addNewNotifications(
-                  "${data.keys.toList()[i]} is less than 100 units.",
-                );
-              }
-              materialControllers.add(TextEditingController(text: amount));
+          if (notificationsCount < inventoryNotifications.length) {
+            for (int i = 0; i < inventoryNotifications.length; i++) {
+              context.read<NotificationsCubit>().addNewNotifications(
+                inventoryNotifications[i],
+              );
             }
           }
+
+          // if (materialControllers.isEmpty) {
+          //   for (int i = 0; i < data.keys.length; i++) {
+          //     final amount = data.values.toList()[i];
+
+          //     if (int.parse(amount) < 100) {
+          //       context.read<NotificationsCubit>().addNewNotifications(
+          //         "${data.keys.toList()[i]} is less than 100 units.",
+          //       );
+          //     }
+          //     materialControllers.add(TextEditingController(text: amount));
+          //   }
+          // }
+
           return Column(
             children: [
               Expanded(
@@ -67,10 +81,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
                           itemCount: data.keys.length,
                           itemBuilder: (context, index) {
                             return ItemCard(
-                              amountController: materialControllers[index],
+                              amountController:
+                                  inventoryMaterialControllers[index],
                               title: data.keys.toList()[index],
                               removeItem: () {
-                                materialControllers.removeAt(index);
+                                inventoryMaterialControllers.removeAt(index);
 
                                 context.read<InventoryBloc>().add(
                                   RemoveFromInventoryEvent(
@@ -94,7 +109,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   onSaveCallback: () {
                     List<int> updatedValues = [];
                     for (int i = 0; i < data.keys.length; i++) {
-                      updatedValues.add(int.parse(materialControllers[i].text));
+                      updatedValues.add(
+                        int.parse(inventoryMaterialControllers[i].text),
+                      );
                     }
                     context.read<InventoryBloc>().add(
                       UpdateInventoryEvent(newQuantities: updatedValues),
@@ -161,7 +178,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                     ),
                                   );
 
-                                  if (items[newMaterialController.text]! < 100) {
+                                  if (items[newMaterialController.text]! <
+                                      100) {
                                     context
                                         .read<NotificationsCubit>()
                                         .addNewNotifications(
@@ -170,7 +188,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                   }
 
                                   Navigator.of(context).pop();
-                                  materialControllers.add(
+                                  inventoryMaterialControllers.add(
                                     TextEditingController(
                                       text:
                                           items[newMaterialController.text]
