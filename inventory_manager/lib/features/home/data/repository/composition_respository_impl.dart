@@ -1,3 +1,5 @@
+import 'dart:developer' show log;
+
 import 'package:inventory_manager/features/home/data/datasources/composition_sheet_datasource.dart';
 import 'package:inventory_manager/features/home/domain/repository/composition_repository.dart';
 
@@ -15,6 +17,7 @@ class CompositionRespositoryImpl extends CompositionRepository {
       );
       return response;
     } catch (e) {
+      log("Composition Creation Error: $e");
       return null;
     }
   }
@@ -26,6 +29,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
           await _compositionSheetDatasource.fetchAllComposition();
       return allCompositions;
     } catch (e) {
+      log("Composition Fetch Error: $e");
+
       return null;
     }
   }
@@ -40,6 +45,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
       );
       return composition;
     } catch (e) {
+      log("Specific Composition Fetch Error: $e");
+
       return null;
     }
   }
@@ -52,6 +59,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
       );
       return response;
     } catch (e) {
+      log("Composition Remove Error: $e");
+
       return null;
     }
   }
@@ -64,6 +73,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
       );
       return response;
     } catch (e) {
+      log("Add Composition Material Error: $e");
+
       return null;
     }
   }
@@ -75,6 +86,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
           .removeCompositionMaterial(material);
       return response;
     } catch (e) {
+      log("Remove Composition Material Error: $e");
+
       return null;
     }
   }
@@ -87,6 +100,8 @@ class CompositionRespositoryImpl extends CompositionRepository {
       );
       return response;
     } catch (e) {
+      log("Update Composition Error: $e");
+
       return null;
     }
   }

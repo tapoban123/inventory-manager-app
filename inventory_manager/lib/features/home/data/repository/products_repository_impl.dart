@@ -1,3 +1,5 @@
+import 'dart:developer' show log;
+
 import 'package:inventory_manager/features/home/data/datasources/products_datasource.dart';
 import 'package:inventory_manager/features/home/domain/repository/products_repository.dart';
 
@@ -12,6 +14,8 @@ class ProductsRepositoryImpl extends ProductsRepository {
       final response = await _productsDatasource.fetchAllProducts();
       return response;
     } catch (e) {
+      log("Fetch all Products Error: $e");
+
       return null;
     }
   }
@@ -25,6 +29,8 @@ class ProductsRepositoryImpl extends ProductsRepository {
       );
       return response;
     } catch (e) {
+      log("Set Product Count Error: $e");
+
       return null;
     }
   }

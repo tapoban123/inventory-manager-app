@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' show log;
 
 import 'package:inventory_manager/features/home/data/datasources/inventory_local_datasource.dart';
 import 'package:inventory_manager/features/home/domain/repository/inventory_local_hive_repository.dart';
@@ -21,7 +21,7 @@ class InventoryLocalHiveRepositoryImpl extends InventoryLocalHiveRepository {
       }
       return null;
     } catch (e) {
-      log("Hive Fetching Error: ${e.toString()}");
+      log("Hive Fetching Error: $e");
       return null;
     }
   }
@@ -33,7 +33,7 @@ class InventoryLocalHiveRepositoryImpl extends InventoryLocalHiveRepository {
     try {
       await _inventoryLocalDatasource.updateMaterialsInInventory(materials);
     } catch (e) {
-      log("Hive Update Error: ${e.toString()}");
+      log("Hive Update Error: $e");
     }
   }
 }
