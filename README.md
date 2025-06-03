@@ -1,4 +1,4 @@
-# QUICKLEAP INNOVATIONS PVT. LTD. Assignment
+# Inventory Manager App
 
 ## [Watch Demo Video of the application here](https://drive.google.com/file/d/1as3VXP2lOTlNZzuOUgsWEbSHFxHBi0Qt/view?usp=sharing)
 ## [View Source Code](inventory_manager)
@@ -6,7 +6,7 @@
 
 ## Task:
 
-Create a Flutter-based Raw Material Management System using `Google Sheets API`,
+A Flutter-based Raw Material Management System using `Google Sheets API`,
 applying `BLoC` for state management, `Hive` for local storage, and a `Clean Architecture`
 approach.
 
