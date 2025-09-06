@@ -1,6 +1,11 @@
 # Inventory Manager App
 
-## [Watch Demo Video of the application here](https://drive.google.com/file/d/1as3VXP2lOTlNZzuOUgsWEbSHFxHBi0Qt/view?usp=sharing)
+## Demo Video of the application:
+
+
+https://github.com/user-attachments/assets/0be7d8bc-6923-4efb-a0ac-a31fd0d12185
+
+
 ## [View Source Code](inventory_manager)
 ## [.apk files of the application](apk_files) 
 
